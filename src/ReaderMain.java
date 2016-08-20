@@ -68,8 +68,9 @@ public class ReaderMain {
 
 					if (temp.contains(singleKanji)) {
 						System.err.println(singleKanji + " is here");
-						sourceCode += temp + " [ found this kanji: "
+						sourceCode += temp + " [Found this kanji: "
 								+ singleKanji + "]" + "\n";
+						break;
 					}
 				}
 			}
@@ -95,13 +96,5 @@ public class ReaderMain {
 			// System.out.println(everything);
 		}
 	}
-
-/*	public boolean containsChar(String s, char search) {
-		if (s.length() == 0)
-			return false;
-		else
-			return s.charAt(0) == search
-					|| containsChar(s.substring(1), search);
-	}*/
 
 }
