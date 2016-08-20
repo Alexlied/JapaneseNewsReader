@@ -14,12 +14,12 @@ public class ReaderMain {
 		File file = new File("newfile.txt");
 
 		// readFromRSS("http://rss.asahi.com/rss/asahi/culture.rdf");
-		//N1 kanji list from http://www.tanos.co.uk/jlpt/skills/kanji/
-		
+		// N1 kanji list from http://www.tanos.co.uk/jlpt/skills/kanji/
+
 		String kanjiList = readKanjiList();
 		String content = readFromRSS(
 				"http://headlines.yahoo.co.jp/rss/bfj-dom.xml", kanjiList);
-		createAndProcessRSS(file, content); 
+		createAndProcessRSS(file, content);
 	}
 
 	public static void createAndProcessRSS(File file, String content) {
@@ -56,7 +56,7 @@ public class ReaderMain {
 
 		while ((line = in.readLine()) != null) {
 			if (line.contains("<title>")) {
-				// System.out.println(line);
+
 				int firstPos = line.indexOf("<title>");
 				String temp = line.substring(firstPos);
 				temp = temp.replace("<title>", "");
