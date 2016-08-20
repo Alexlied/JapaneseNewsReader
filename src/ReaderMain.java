@@ -11,8 +11,8 @@ public class ReaderMain {
 
 	public static void main(String[] args) throws IOException {
 
-		File file = new File(
-				"C:/Users/Alex/Documents/JapaneseNewsReader/newfile.txt");
+		File file = new File("newfile.txt");
+
 		// readFromRSS("http://rss.asahi.com/rss/asahi/culture.rdf");
 		//N1 kanji list from http://www.tanos.co.uk/jlpt/skills/kanji/
 		
@@ -82,7 +82,7 @@ public class ReaderMain {
 	public static String readKanjiList() throws FileNotFoundException,
 			IOException {
 		try (BufferedReader br = new BufferedReader(new FileReader(
-				"C:/Users/Alex/Documents/JapaneseNewsReader/jlptN1Kanji.txt"))) {
+				"jlptN1Kanji.txt"))) {
 			StringBuilder sb = new StringBuilder();
 			String line = br.readLine();
 
