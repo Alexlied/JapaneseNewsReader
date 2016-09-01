@@ -53,6 +53,7 @@ public class ReaderMain {
 				rssUrl.openStream(), "UTF-8"));
 		String sourceCode = "";
 		String line;
+		boolean isGoodTitle = false;
 
 		while ((line = in.readLine()) != null) {
 			if (line.contains("<title>")) {
@@ -70,9 +71,29 @@ public class ReaderMain {
 						System.err.println(singleKanji + " is here");
 						sourceCode += temp + " [Found this kanji: "
 								+ singleKanji + "]" + "\n";
+						isGoodTitle = true;
 						break;
 					}
 				}
+			}
+			//adds html link to the article
+			if (line.contains("<link>") && isGoodTitle == true) {
+
+				isGoodTitle = false;
+				int firstPos = line.indexOf("<link>");
+				String temp = line.substring(firstPos);
+				temp = temp.replace("<link>", "");
+				int lastPos = temp.indexOf("</link>");
+				temp = temp.substring(0, lastPos);
+				sourceCode += temp + "\n\n";
+				/*for (char ch : kanji.toCharArray()) {
+					String singleKanji = Character.toString(ch);
+
+					if (temp.contains(singleKanji)) {
+						sourceCode += temp + "\n";
+						break;
+					}
+				}*/
 			}
 		}
 
