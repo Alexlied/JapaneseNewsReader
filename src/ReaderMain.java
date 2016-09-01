@@ -16,7 +16,8 @@ public class ReaderMain {
 		// readFromRSS("http://rss.asahi.com/rss/asahi/culture.rdf");
 		// N1 kanji list from http://www.tanos.co.uk/jlpt/skills/kanji/
 
-		String kanjiList = readKanjiList();
+		String listLocation = "jlptN1Kanji.txt";
+		String kanjiList = readKanjiList(listLocation);
 		String content = readFromRSS(
 				"http://headlines.yahoo.co.jp/rss/bfj-dom.xml", kanjiList);
 		createAndProcessRSS(file, content);
@@ -56,6 +57,7 @@ public class ReaderMain {
 		boolean isGoodTitle = false;
 
 		while ((line = in.readLine()) != null) {
+			//adds title of news article with selected kanji
 			if (line.contains("<title>")) {
 
 				int firstPos = line.indexOf("<title>");
@@ -86,14 +88,6 @@ public class ReaderMain {
 				int lastPos = temp.indexOf("</link>");
 				temp = temp.substring(0, lastPos);
 				sourceCode += temp + "\n\n";
-				/*for (char ch : kanji.toCharArray()) {
-					String singleKanji = Character.toString(ch);
-
-					if (temp.contains(singleKanji)) {
-						sourceCode += temp + "\n";
-						break;
-					}
-				}*/
 			}
 		}
 
@@ -101,10 +95,10 @@ public class ReaderMain {
 		return sourceCode;
 	}
 
-	public static String readKanjiList() throws FileNotFoundException,
+	public static String readKanjiList(String list) throws FileNotFoundException,
 			IOException {
 		try (BufferedReader br = new BufferedReader(new FileReader(
-				"jlptN1Kanji.txt"))) {
+				list))) {
 			StringBuilder sb = new StringBuilder();
 			String line = br.readLine();
 
@@ -114,7 +108,7 @@ public class ReaderMain {
 				line = br.readLine();
 			}
 			return sb.toString();
-			// System.out.println(everything);
+
 		}
 	}
 
