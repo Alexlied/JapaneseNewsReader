@@ -17,9 +17,10 @@ public class ReaderMain {
 		// N1 kanji list from http://www.tanos.co.uk/jlpt/skills/kanji/
 
 		String listLocation = "jlptN1Kanji.txt";
+		String xmlLocation = "http://headlines.yahoo.co.jp/rss/bfj-dom.xml";
+
 		String kanjiList = readKanjiList(listLocation);
-		String content = readFromRSS(
-				"http://headlines.yahoo.co.jp/rss/bfj-dom.xml", kanjiList);
+		String content = readFromRSS(xmlLocation, kanjiList);
 		createAndProcessRSS(file, content);
 	}
 
@@ -57,7 +58,7 @@ public class ReaderMain {
 		boolean isGoodTitle = false;
 
 		while ((line = in.readLine()) != null) {
-			//adds title of news article with selected kanji
+			// adds title of news article with selected kanji
 			if (line.contains("<title>")) {
 
 				int firstPos = line.indexOf("<title>");
@@ -70,7 +71,7 @@ public class ReaderMain {
 					String singleKanji = Character.toString(ch);
 
 					if (temp.contains(singleKanji)) {
-						System.err.println(singleKanji + " is here");
+						// System.err.println(singleKanji + " is here");
 						sourceCode += temp + " [Found this kanji: "
 								+ singleKanji + "]" + "\n";
 						isGoodTitle = true;
@@ -78,7 +79,7 @@ public class ReaderMain {
 					}
 				}
 			}
-			//adds html link to the article
+			// adds html link to the article
 			if (line.contains("<link>") && isGoodTitle == true) {
 
 				isGoodTitle = false;
@@ -95,10 +96,9 @@ public class ReaderMain {
 		return sourceCode;
 	}
 
-	public static String readKanjiList(String list) throws FileNotFoundException,
-			IOException {
-		try (BufferedReader br = new BufferedReader(new FileReader(
-				list))) {
+	public static String readKanjiList(String list)
+			throws FileNotFoundException, IOException {
+		try (BufferedReader br = new BufferedReader(new FileReader(list))) {
 			StringBuilder sb = new StringBuilder();
 			String line = br.readLine();
 
