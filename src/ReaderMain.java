@@ -17,13 +17,26 @@ public class ReaderMain {
 		// N1 kanji list from http://www.tanos.co.uk/jlpt/skills/kanji/
 
 		String listLocation = "jlptN1Kanji.txt";
-		String xmlLocation = "http://headlines.yahoo.co.jp/rss/bfj-dom.xml";
+		String xmlLocation = "https://headlines.yahoo.co.jp/rss/bfj-dom.xml";
 
 		String kanjiList = readKanjiList(listLocation);
+		if(kanjiList.isEmpty())
+		{
+			System.out.println("Kanji list is empty.");
+		}
+		
 		String content = readFromRSS(xmlLocation, kanjiList);
+		if(content.isEmpty())
+		{
+			System.out.println("Nothing read from RSS feed.");
+		}
 		createAndProcessRSS(file, content);
 	}
 
+	/**
+	 * @param file
+	 * @param content
+	 */
 	public static void createAndProcessRSS(File file, String content) {
 		try (FileOutputStream fop = new FileOutputStream(file)) {
 
@@ -47,6 +60,12 @@ public class ReaderMain {
 
 	}
 
+	/**
+	 * @param rss
+	 * @param kanji
+	 * @return
+	 * @throws IOException
+	 */
 	public static String readFromRSS(String rss, String kanji)
 			throws IOException {
 		// try {
@@ -56,11 +75,11 @@ public class ReaderMain {
 		String sourceCode = "";
 		String line;
 		boolean isGoodTitle = false;
-
+		
 		while ((line = in.readLine()) != null) {
 			// adds title of news article with selected kanji
 			if (line.contains("<title>")) {
-
+				
 				int firstPos = line.indexOf("<title>");
 				String temp = line.substring(firstPos);
 				temp = temp.replace("<title>", "");
@@ -69,9 +88,7 @@ public class ReaderMain {
 
 				for (char ch : kanji.toCharArray()) {
 					String singleKanji = Character.toString(ch);
-
 					if (temp.contains(singleKanji)) {
-						// System.err.println(singleKanji + " is here");
 						sourceCode += temp + " [Found this kanji: "
 								+ singleKanji + "]" + "\n";
 						isGoodTitle = true;
@@ -96,6 +113,12 @@ public class ReaderMain {
 		return sourceCode;
 	}
 
+	/**
+	 * @param list
+	 * @return
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public static String readKanjiList(String list)
 			throws FileNotFoundException, IOException {
 		try (BufferedReader br = new BufferedReader(new FileReader(list))) {
