@@ -1,3 +1,4 @@
+package main;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,7 +18,9 @@ public class ReaderMain {
 		// N1 kanji list from http://www.tanos.co.uk/jlpt/skills/kanji/
 
 		String listLocation = "jlptN1Kanji.txt";
-		String xmlLocation = "https://headlines.yahoo.co.jp/rss/bfj-dom.xml";
+		//http://rss.wor.jp/rss1/yomiuri/latestnews.rdf
+		//https://headlines.yahoo.co.jp/rss/bfj-dom.xml
+		String xmlLocation = "http://rss.wor.jp/rss1/yomiuri/latestnews.rdf";
 
 		String kanjiList = readKanjiList(listLocation);
 		if(kanjiList.isEmpty())
