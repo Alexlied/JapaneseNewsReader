@@ -21,7 +21,7 @@ public class ReaderMain {
 		String listLocation = "jlptN1Kanji.txt";
 		//http://rss.wor.jp/rss1/yomiuri/latestnews.rdf
 		//https://headlines.yahoo.co.jp/rss/bfj-dom.xml
-		String xmlLocation = "http://rss.wor.jp/rss1/yomiuri/latestnews.rdf";
+		String xmlLocation = "https://rss.wor.jp/rss1/yomiuri/latestnews.rdf";
 
 		String kanjiList = readKanjiList(listLocation);
 		if(kanjiList.isEmpty())
