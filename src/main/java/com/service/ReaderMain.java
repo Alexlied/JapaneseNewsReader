@@ -66,7 +66,6 @@ public class ReaderMain {
 	 * @throws IOException
 	 */
 	public static String readFromRSS(String rss, String kanjiList) throws IOException {
-		// try {
 		URL rssUrl = new URL(rss);
 		BufferedReader in = new BufferedReader(new InputStreamReader(rssUrl.openStream(), "UTF-8"));
 		StringBuilder outputContent = new StringBuilder();
@@ -77,24 +76,19 @@ public class ReaderMain {
 			// adds title of news article with selected kanji
 			if (line.contains("<title>")) {
 
-				int firstPos = line.indexOf("<title>");
-				String temp = line.substring(firstPos);
-				temp = temp.replace("<title>", "");
-				int lastPos = temp.indexOf("</title>");
-				temp = temp.substring(0, lastPos);
+				String titleLine = parseLine(line, "title");
 
 				for (char ch : kanjiList.toCharArray()) {
 					String singleKanji = Character.toString(ch);
 					StringBuilder listOfFoundKanji = new StringBuilder();
 
-					if (temp.contains(singleKanji)) {
+					if (titleLine.contains(singleKanji)) {
 						listOfFoundKanji.append(singleKanji);
 
 						System.out.println("current list:" + listOfFoundKanji.toString());
 
-						outputContent.append(temp + " [Found this kanji: " + singleKanji + "]" + "\n");
+						outputContent.append(titleLine + " [Found this kanji: " + singleKanji + "]" + "\n");
 						isGoodTitle = true;
-						// break;
 					}
 				}
 			}
@@ -102,17 +96,29 @@ public class ReaderMain {
 			if (line.contains("<link>") && isGoodTitle == true) {
 
 				isGoodTitle = false;
-				int firstPos = line.indexOf("<link>");
-				String temp = line.substring(firstPos);
-				temp = temp.replace("<link>", "");
-				int lastPos = temp.indexOf("</link>");
-				temp = temp.substring(0, lastPos);
-				outputContent.append(temp + "\n\n");
+				String link = parseLine(line, "link");
+				outputContent.append(link + "\n\n");
 			}
 		}
 
 		in.close();
 		return outputContent.toString();
+	}
+
+	/**
+	 * @param line
+	 * @param tag
+	 * @return
+	 * 
+	 * Returns contents within given tags from given line
+	 */
+	private static String parseLine(String line, String tag) {
+		int firstPos = line.indexOf("<" + tag + ">");
+		String temp = line.substring(firstPos);
+		temp = temp.replace("<" + tag + ">", "");
+		int lastPos = temp.indexOf("</" + tag + ">");
+		temp = temp.substring(0, lastPos);
+		return temp;
 	}
 
 	/**
