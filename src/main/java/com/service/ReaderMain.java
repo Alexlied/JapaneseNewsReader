@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
 
+import com.read.RSSParser;
+
 public class ReaderMain {
 
 	public static void main(String[] args) throws IOException {
@@ -17,7 +19,9 @@ public class ReaderMain {
 		//String xmlLocation = "https://rss.wor.jp/rss1/yomiuri/latestnews.rdf"; //can't find it		
 		String xmlLocation = "https://news.yahoo.co.jp/pickup/rss.xml"; //Yahoo Japan top news
 
-		String kanjiList = readKanjiList(listLocation);
+		RSSParser parser = new RSSParser();
+		
+		String kanjiList = parser.readKanjiList(listLocation);
 		if (kanjiList.isEmpty()) {
 			System.out.println("Kanji list is empty.");
 		}
@@ -124,25 +128,6 @@ public class ReaderMain {
 		return temp;
 	}
 
-	/**
-	 * @param list
-	 * @return
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 */
-	public static String readKanjiList(String listLocation) throws FileNotFoundException, IOException {
-		try (BufferedReader br = new BufferedReader(new FileReader(listLocation))) {
-			StringBuilder sb = new StringBuilder();
-			String line = br.readLine();
 
-			while (line != null) {
-				sb.append(line);
-				sb.append(System.lineSeparator());
-				line = br.readLine();
-			}
-			return sb.toString();
-
-		}
-	}
 
 }

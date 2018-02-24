@@ -10,16 +10,6 @@ import org.junit.Test;
 
 public class ReaderMainTest {
 
-	@Test(expected = FileNotFoundException.class)
-	public void whenReadingMissingKanjiListLocationReturnNull() throws IOException {
-		// Arrange
-		String listLocation = "falseLocation.txt";
-		
-		// Act
-		ReaderMain.readKanjiList(listLocation);
-		
-		// Assert
-		
-	}
+
 
 }
