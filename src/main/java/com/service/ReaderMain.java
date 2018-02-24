@@ -27,8 +27,11 @@ public class ReaderMain {
 			if (content.isEmpty()) {
 				System.out.println("Nothing read from RSS feed.");
 			}
-			File file = new File("ReaderOutput.txt");
-			createTextFile(file, content);
+			else
+			{
+				File file = new File("ReaderOutput.txt");
+				createTextFile(file, content);
+			}
 		}
 	}
 
