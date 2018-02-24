@@ -12,24 +12,24 @@ import java.net.*;
 public class ReaderMain {
 
 	public static void main(String[] args) throws IOException {
-
-		File file = new File("newfile.txt");
-
 		// N1 kanji list from http://www.tanos.co.uk/jlpt/skills/kanji/
-
 		String listLocation = "jlptN1Kanji.txt";
-		String xmlLocation = "https://rss.wor.jp/rss1/yomiuri/latestnews.rdf";
+		//String xmlLocation = "https://rss.wor.jp/rss1/yomiuri/latestnews.rdf"; //can't find it		
+		String xmlLocation = "https://news.yahoo.co.jp/pickup/rss.xml"; //Yahoo Japan top news
 
 		String kanjiList = readKanjiList(listLocation);
 		if (kanjiList.isEmpty()) {
 			System.out.println("Kanji list is empty.");
 		}
-
-		String content = readFromRSS(xmlLocation, kanjiList);
-		if (content.isEmpty()) {
-			System.out.println("Nothing read from RSS feed.");
+		else
+		{
+			String content = readFromRSS(xmlLocation, kanjiList);
+			if (content.isEmpty()) {
+				System.out.println("Nothing read from RSS feed.");
+			}
+			File file = new File("ReaderOutput.txt");
+			createTextFile(file, content);
 		}
-		createTextFile(file, content);
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class ReaderMain {
 					if (titleLine.contains(singleKanji)) {
 						listOfFoundKanji.append(singleKanji);
 
-						System.out.println("current list:" + listOfFoundKanji.toString());
+						//System.out.println("current list:" + listOfFoundKanji.toString());
 
 						outputContent.append(titleLine + " [Found this kanji: " + singleKanji + "]" + "\n");
 						isGoodTitle = true;
@@ -127,8 +127,8 @@ public class ReaderMain {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public static String readKanjiList(String list) throws FileNotFoundException, IOException {
-		try (BufferedReader br = new BufferedReader(new FileReader(list))) {
+	public static String readKanjiList(String listLocation) throws FileNotFoundException, IOException {
+		try (BufferedReader br = new BufferedReader(new FileReader(listLocation))) {
 			StringBuilder sb = new StringBuilder();
 			String line = br.readLine();
 
